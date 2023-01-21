@@ -86,9 +86,6 @@ class RedPacket extends Model
                 throw new Exception("红包已经被抢完了");
             }
 
-            if (GrabRecord::where('red_packet_id', $this->id)->where('user_id', auth('api')->id())->exists()) {
-                throw new Exception("你已经抢过这个红包了");
-            }
 
             $amount = $this->pickAmount();
 

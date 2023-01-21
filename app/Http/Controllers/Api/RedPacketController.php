@@ -37,7 +37,7 @@ class RedPacketController extends Controller
             'total' => 'required|numeric|min:1',
             'total_amount' => 'required|numeric|min:0.01|max:1000',
             'greeting' => 'nullable|string',
-            'password' => 'nullable|string',
+            'password' => 'required|string',
         ]);
 
         if ($request->input('total') * 0.01 > $request->input('total_amount')) {
@@ -98,16 +98,28 @@ class RedPacketController extends Controller
     /**
      * Remove the specified resource from storage.
      *
+     * @param Request   $request
      * @param RedPacket $redPacket
      *
      * @return JsonResponse
      */
-    public function destroy(RedPacket $redPacket)
+    public function destroy(Request $request, RedPacket $redPacket)
     {
+        $user = $request->user('api');
+        if ($user->id !== $redPacket->user_id) {
+            return $this->forbidden('无权删除');
+        }
+
         if ($redPacket->remaining_amount > 0) {
             $this->http->patch('users/' . $redPacket->user_id, [
                 'balance' => $redPacket->remaining_amount,
                 'description' => '退回红包金额',
+            ]);
+
+            $this->http->post('broadcast/users/' . $user->id, [
+                'title' => '退还红包',
+                'message' => "您的红包被删除，退还了 {$redPacket->remaining_amount} 元。",
+                'event' => 'notifications',
             ]);
         }
 
@@ -136,10 +148,28 @@ class RedPacketController extends Controller
         try {
             $amount = $redPacket->grab();
 
-            $this->http->patch('users/' . auth('api')->id(), [
+            // $this->dispatch(function () use ($redPacket, $amount) {
+            $user = auth('api')->user();
+
+            $this->http->patch('users/' . $user->id, [
                 'balance' => $amount,
                 'description' => "抢到了 {$redPacket->user->name} 的红包，金额为 " . $amount . " 元",
             ]);
+
+            $this->http->post('broadcast/users/' . $user->id, [
+                'title' => '抢到红包',
+                'message' => "抢到了 {$redPacket->user->name} 的红包，金额为 " . $amount . " 元",
+                'event' => 'notifications',
+            ]);
+
+            $this->http->post('broadcast/users/' . $redPacket->user->id, [
+                'title' => '抢到红包',
+                'message' => "你的红包被 {$user->name} 抢到了，金额为 " . $amount . " 元",
+                'event' => 'notifications',
+            ]);
+
+
+            // });
 
             return $this->success([
                 'amount' => $amount,
