@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Remote\Exports;
 
-use ivampiresp\Cocoa\Http\Controller;
+use App\Http\Controllers\Controller;
 use ivampiresp\Cocoa\Models\Ip;
 
 class IpController extends Controller
@@ -23,7 +23,6 @@ class IpController extends Controller
 
         return $this->success($ip);
     }
-
 
 
     /**

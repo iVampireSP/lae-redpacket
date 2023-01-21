@@ -6,7 +6,6 @@ use App\Models\Host;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
-use ivampiresp\Cocoa\Http\Controller;
 use ivampiresp\Cocoa\Models\WorkOrder\WorkOrder;
 
 class HostController extends Controller
@@ -105,9 +104,11 @@ class HostController extends Controller
      */
     public function destroy(Host $host): RedirectResponse
     {
-        // 销毁前的逻辑
-        $HostController = new Api\HostController();
-        $HostController->destroy($host);
+        // // 销毁前的逻辑
+        // $HostController = new Api\HostController();
+        // $HostController->destroy($host);
+        //
+        // return back()->with('success', '已开始销毁。');
 
         return back()->with('success', '已开始销毁。');
     }

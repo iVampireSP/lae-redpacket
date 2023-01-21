@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
-use ivampiresp\Cocoa\Http\Controller;
 use ivampiresp\Cocoa\Models\Server;
 
 class ServerController extends Controller

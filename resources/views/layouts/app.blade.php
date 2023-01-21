@@ -33,7 +33,7 @@
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <!-- Left Side Of Navbar -->
-                @auth
+                @auth('admin')
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('earnings') }}">首页</a>
@@ -41,18 +41,24 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('users.index') }}">客户</a>
                         </li>
+
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('hosts.index') }}">主机</a>
+                            <a class="nav-link" href="{{ route('grab-record.index') }}">领取记录</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('servers.index') }}">服务器</a>
-                        </li>
+
+
+{{--                        <li class="nav-item">--}}
+{{--                            <a class="nav-link" href="{{ route('hosts.index') }}">主机</a>--}}
+{{--                        </li>--}}
+{{--                        <li class="nav-item">--}}
+{{--                            <a class="nav-link" href="{{ route('servers.index') }}">服务器</a>--}}
+{{--                        </li>--}}
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('work-orders.index') }}">工单</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('devices.index') }}">物联设备</a>
-                        </li>
+{{--                        <li class="nav-item">--}}
+{{--                            <a class="nav-link" href="{{ route('devices.index') }}">物联设备</a>--}}
+{{--                        </li>--}}
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('admins.index') }}">管理员</a>
                         </li>

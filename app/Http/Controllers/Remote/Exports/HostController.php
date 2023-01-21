@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Remote\Exports;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use ivampiresp\Cocoa\Http\Controller;
 use ivampiresp\Cocoa\Models\Host;
 
 class HostController extends Controller

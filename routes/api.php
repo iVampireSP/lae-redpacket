@@ -1,7 +1,6 @@
 <?php
 
-use App\Http\Controllers\Api\HostController;
-use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\RedPacketController;
 use Illuminate\Support\Facades\Route;
 
 /**
@@ -11,5 +10,9 @@ use Illuminate\Support\Facades\Route;
  * 认证 Guard: api。可以通过 $request->user('api') 获取用户信息。
  */
 
-Route::get('user', UserController::class);
-Route::apiResource('hosts', HostController::class);
+Route::get('/', [RedPacketController::class, 'index']);
+Route::post('/', [RedPacketController::class, 'store']);
+Route::get('/{redPacket}', [RedPacketController::class, 'show']);
+Route::delete('/{redPacket}', [RedPacketController::class, 'destroy']);
+
+Route::post('/{redPacket}/grab', [RedPacketController::class, 'grab']);
